@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +19,7 @@ import java.util.List;
 @SuperBuilder
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicInsert
 public class Member extends BaseEntity {
     @Column(unique = true)
     private String username;
@@ -27,6 +30,7 @@ public class Member extends BaseEntity {
     @Column()
     private String email;
     @Column()
+    @ColumnDefault("1")
     private Short authLevel;
 
     @OneToMany(mappedBy = "author")
@@ -34,4 +38,8 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "author")
     private List<Product> products;
+
+    public void changePassword(String password){
+        this.password = password;
+    }
 }

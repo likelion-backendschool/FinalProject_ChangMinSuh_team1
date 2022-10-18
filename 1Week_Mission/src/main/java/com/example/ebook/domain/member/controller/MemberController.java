@@ -1,9 +1,11 @@
 package com.example.ebook.domain.member.controller;
 
+import com.example.ebook.domain.member.dtos.FindUsernameDto;
 import com.example.ebook.domain.member.dtos.SignupDto;
 import com.example.ebook.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,12 +19,12 @@ import javax.validation.Valid;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping("signup")
+    @GetMapping("join")
     public String signup(SignupDto signupDto){
         return "member/signup_form";
     }
 
-    @PostMapping("signup")
+    @PostMapping("join")
     public String signup(
             @Valid SignupDto signupDto,
             BindingResult bindingResult
@@ -45,5 +47,35 @@ public class MemberController {
     @GetMapping("login")
     public String login(){
         return "member/login_form";
+    }
+
+    @GetMapping("findUsername")
+    public String findUsername(
+            FindUsernameDto findUsernameDto
+    ){
+        return "member/find_username_form";
+    }
+
+    @PostMapping("findUsername")
+    public String findUsername(
+           @Valid FindUsernameDto findUsernameDto,
+           BindingResult bindingResult,
+           Model model
+    ){
+        if (bindingResult.hasErrors()) {
+            return "member/find_username_form";
+        }
+        String username;
+
+        try{
+            username = memberService.findUsername(findUsernameDto.getEmail());
+        } catch (RuntimeException e){
+            bindingResult.rejectValue("email", "emailInCorrect",
+                    e.getMessage());
+            return "member/find_username_form";
+        }
+
+        model.addAttribute("username", username);
+        return "member/show_username";
     }
 }

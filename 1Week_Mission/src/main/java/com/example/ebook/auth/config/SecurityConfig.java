@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -21,7 +22,13 @@ public class SecurityConfig {
                         authorizeRequests -> authorizeRequests
                                 .antMatchers("/**")
                                 .permitAll()
-                );
+                )
+                .formLogin(
+                        formLogin -> formLogin
+                                .loginPage("/member/login") // GET
+                                .loginProcessingUrl("/member/login") // POST
+                )
+        ;
         return http.build();
     }
 

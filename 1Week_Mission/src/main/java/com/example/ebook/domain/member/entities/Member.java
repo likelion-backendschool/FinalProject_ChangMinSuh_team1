@@ -25,9 +25,9 @@ public class Member extends BaseEntity {
     private String username;
     @Column()
     private String password;
-    @Column()
+    @Column(unique = true)
     private String nickname;
-    @Column()
+    @Column(unique = true)
     private String email;
     @Column()
     @ColumnDefault("1")
@@ -42,4 +42,5 @@ public class Member extends BaseEntity {
     public void changePassword(String password){
         this.password = password;
     }
+    public void changeEmail(String email) {this.email = email; }
 }

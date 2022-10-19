@@ -23,11 +23,14 @@ public class SignupDto {
     @NotEmpty(message = "비밀번호 확인은 필수항목입니다.")
     private String passwordChk;
 
+    private String nickname;
+
     public Member toEntity(){
         return Member.builder()
                 .username(username)
                 .email(email)
                 .password(password)
+                .nickname(nickname)
                 .build();
     }
 }

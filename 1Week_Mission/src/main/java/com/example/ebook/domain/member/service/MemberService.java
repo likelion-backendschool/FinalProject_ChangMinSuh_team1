@@ -49,5 +49,6 @@ public class MemberService {
 
         // modify
         member.changeEmail(modifyMemberDto.getEmail());
+        member.changeNickname(modifyMemberDto.getNickname());
     }
 }

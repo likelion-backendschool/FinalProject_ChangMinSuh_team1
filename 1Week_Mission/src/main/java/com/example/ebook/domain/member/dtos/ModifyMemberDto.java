@@ -19,8 +19,10 @@ public class ModifyMemberDto {
     @Email(message = "이메일 형식이 아닙니다.")
     private String email;
 
+    private String nickname;
+
     public ModifyMemberDto(Member member){
-        System.out.println(member.getEmail());
         email = member.getEmail();
+        nickname = member.getNickname();
     }
 }

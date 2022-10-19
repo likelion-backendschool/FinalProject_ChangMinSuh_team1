@@ -17,6 +17,10 @@
     <label for="email" class="form-label">이메일</label>
     <span type="text" th:text="${member.email}" ></span>
   </div>
+  <div class="mb-3">
+    <label for="nickname" class="form-label">작가명</label>
+    <span type="text" th:text="${member.nickname}"></span>
+  </div>
   <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/member/modify}">내 프로필 수정</a>
 </div>
 </html>

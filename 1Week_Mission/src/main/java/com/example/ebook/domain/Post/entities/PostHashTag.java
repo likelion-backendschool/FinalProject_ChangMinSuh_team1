@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -18,12 +19,12 @@ import javax.persistence.Table;
 @Table(indexes = @Index(name="unique_post_postkeyword", columnList = "post_id, post_keyword_id", unique = true))
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostHashTag extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private PostKeyword postKeyword;
 }

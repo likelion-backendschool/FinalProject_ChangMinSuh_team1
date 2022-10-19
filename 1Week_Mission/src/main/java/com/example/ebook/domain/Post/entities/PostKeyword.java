@@ -8,6 +8,8 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
@@ -18,7 +20,6 @@ import java.util.List;
 public class PostKeyword extends BaseEntity {
     @Column
     private String content;
-
-    @OneToMany(mappedBy = "postKeyword")
+    @OneToMany(mappedBy = "postKeyword", fetch = FetchType.LAZY)
     private List<PostHashTag> postHashTags;
 }

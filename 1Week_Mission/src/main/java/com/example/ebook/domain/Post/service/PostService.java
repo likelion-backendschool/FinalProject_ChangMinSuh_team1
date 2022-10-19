@@ -16,4 +16,9 @@ public class PostService {
     public List<Post> findPosts() {
         return postRepository.findAll();
     }
+
+    public Post findOnePost(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("게시판을 찾을 수 없습니다."));
+    }
 }

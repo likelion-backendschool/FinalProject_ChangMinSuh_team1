@@ -9,6 +9,7 @@ import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,11 +29,11 @@ public class Post extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String contentHtml;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Member author;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
     private List<PostHashTag> postHashTags;
 
 }

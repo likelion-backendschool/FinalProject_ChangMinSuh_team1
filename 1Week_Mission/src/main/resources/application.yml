@@ -1,11 +1,11 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ebook?characterEncoding=UTF-8
-    username: root
-    password: skqldi12
   jpa:
     open-in-view: true
     show-sql: true
     hibernate:
       ddl-auto: update
+
+---
+spring:
+  profiles:
+    active: dev

@@ -5,10 +5,13 @@ import com.example.ebook.domain.member.dtos.SignupDto;
 import com.example.ebook.domain.member.entities.Member;
 import com.example.ebook.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.Optional;
 
 @Service
@@ -17,7 +20,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member signup(SignupDto signupDto){
+    public Member signup(SignupDto signupDto) throws DataIntegrityViolationException {
         Member member = signupDto.toEntity();
 
         member.changePassword(passwordEncoder.encode(member.getPassword()));

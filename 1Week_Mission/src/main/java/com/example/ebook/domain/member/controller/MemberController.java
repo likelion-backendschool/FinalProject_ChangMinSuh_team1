@@ -6,7 +6,9 @@ import com.example.ebook.domain.member.dtos.ModifyMemberDto;
 import com.example.ebook.domain.member.dtos.SignupDto;
 import com.example.ebook.domain.member.entities.Member;
 import com.example.ebook.domain.member.service.MemberService;
+import com.example.ebook.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,14 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("member")
 public class MemberController {
     private final MemberService memberService;
-
+    private final MailService mailService;
     @GetMapping("join")
     public String signup(SignupDto signupDto){
         return "member/signup_form";
@@ -42,8 +48,19 @@ public class MemberController {
                     "2개의 패스워드가 일치하지 않습니다.");
             return "member/signup_form";
         }
-
-        memberService.signup(signupDto);
+        Member member = null;
+        try{
+             member = memberService.signup(signupDto);
+        } catch(DataIntegrityViolationException e){
+            System.out.println(e.getCause());
+            System.out.println(e.getMessage());
+            bindingResult.rejectValue("username", "usernameDuplicate",
+                    "회원 id 혹은 email 값이 중복됩니다.");
+            return "member/signup_form";
+        }
+        List<String> emails = new ArrayList<>();
+        emails.add(member.getEmail());
+        mailService.sendMail(emails ,"회원가입을 축하합니다", "ebook에 가입하신 것을 환영합니다!");
 
         return "redirect:/";
     }

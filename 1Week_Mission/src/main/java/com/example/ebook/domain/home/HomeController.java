@@ -1,4 +1,4 @@
-package com.example.ebook.home;
+package com.example.ebook.domain.home;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
